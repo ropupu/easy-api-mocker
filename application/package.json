@@ -1,0 +1,16 @@
+{
+    "name": "easy-api-mocker",
+    "version": "0.0.1",
+    "scripts": {
+        "build": "tsc",
+        "dev": "npm install && ts-node ./src/server.ts",
+        "start": "nodemon ./dist/server.js",
+        "prod": "npm run build && npm run start"
+    },
+    "dependencies": {
+        "@types/express": "^4.16.1",
+        "express": "^4.16.4",
+        "body-parser": "^1.18.3",
+        "nodemon": "^1.18.9"
+    }
+}

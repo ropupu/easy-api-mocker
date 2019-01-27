@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+  application:
+    build: ./
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./application:/server"
+    command: ["npm", "run", "dev"]
+    container_name: easy-api-mocker 
