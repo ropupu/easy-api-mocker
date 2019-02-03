@@ -31,12 +31,7 @@ app.get('/', (req: Express.Request, res: Express.Response) => {
 
 app.post('/api/', async (req: Express.Request, res: Express.Response) => {
   const createGroupUsecase = new CreateGroupUsecase();
-  let groupKey: string = '';
-  try {
-    groupKey = await createGroupUsecase.normal();
-  } catch (e) {
-    throw e;
-  }
+  const groupKey: string = await createGroupUsecase.normal();
   res.status(201).send({ group_key: groupKey });
 });
 
