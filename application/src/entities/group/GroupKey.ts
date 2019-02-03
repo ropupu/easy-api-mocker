@@ -19,4 +19,7 @@ export class GroupKey {
     this.key = keyCandidate;
     return new Promise((resolve) => resolve(this.key));
   }
+  public getKey(): string {
+    return this.key;
+  }
 }
