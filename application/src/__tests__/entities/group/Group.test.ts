@@ -15,4 +15,8 @@ describe('Group', () => {
     const ret = await instance.create();
     expect(ret).toBe(true);
   })
+  it('check Group.getKey() returns key (8 characters)', async() => {
+    await instance.create();
+    expect(instance.getKey()).toMatch(/\w{8}/);
+  })
 })

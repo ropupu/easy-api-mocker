@@ -23,4 +23,7 @@ export class Group {
       updatedAt: this.updatedAt
     });
   }
+  public getKey(): string {
+    return this.groupKey.getKey();
+  }
 }

@@ -1,20 +1,16 @@
-import { GroupKey } from 'entities/group/GroupKey';
 import { Group } from 'entities/group/Group';
+import { GroupRepository } from 'adapters/repositories/GroupRepository';
 
 export class CreateGroupUsecase {
-  private groupKey: GroupKey;
 
-  constructor() {
-    this.groupKey = new GroupKey();
-  }
   public async normal(): Promise<string> {
-    const key = await this.groupKey.create();
-    const group = new Group(key);
+    const groupRepository = new GroupRepository();
+    const group = new Group(groupRepository);
     try {
       await group.create();
     } catch (e) {
       throw e;
     }
-    return new Promise((resolve) => resolve(key));
+    return new Promise((resolve) => resolve(group.getKey()));
   }
 }
