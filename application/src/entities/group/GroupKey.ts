@@ -8,7 +8,11 @@ export class GroupKey {
     this.groupsRepository = new GroupsRepository();
   }
   public async create(): Promise<string> {
-    const keyCandidate: string = Math.random().toString(36).slice(-8);
+    const words = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+    let keyCandidate = '';
+    for (let i = 0; i < 12; i++) {
+      keyCandidate += words[Math.floor(Math.random()*(words.length))];
+    }
     const keyMap: object = {
       key: keyCandidate
     };

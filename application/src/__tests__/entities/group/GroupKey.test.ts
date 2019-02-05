@@ -8,9 +8,9 @@ describe('GroupKey', () => {
   beforeEach(() => {
     instance = new GroupKey();
   })
-  it('check GroupKey.create() returns key string(8 characters)', async () => {
+  it('check GroupKey.create() returns key string(12 characters)', async () => {
     const key = await instance.create();
-    expect(key).toMatch(/\w{8}/);
+    expect(key).toMatch(/\w{12}/);
   })
   it('check GroupKey.getKey() returns key string', async() => {
     const key = await instance.create();

@@ -8,19 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require("fs");
 class EndpointRepository {
     save(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const fsPromises = fs.promises;
-            const path = '/tmp/rp';
-            try {
-                const filehandle = yield fsPromises.open(path, 'w');
-                yield filehandle.writeFile(JSON.stringify(data));
-            }
-            catch (e) {
-                throw e;
-            }
             return new Promise((resolve) => resolve(true));
         });
     }

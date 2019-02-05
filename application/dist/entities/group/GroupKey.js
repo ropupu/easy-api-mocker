@@ -15,7 +15,11 @@ class GroupKey {
     }
     create() {
         return __awaiter(this, void 0, void 0, function* () {
-            const keyCandidate = Math.random().toString(36).slice(-8);
+            const words = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+            let keyCandidate = '';
+            for (let i = 0; i < 12; i++) {
+                keyCandidate += words[Math.floor(Math.random() * (words.length))];
+            }
             const keyMap = {
                 key: keyCandidate
             };
