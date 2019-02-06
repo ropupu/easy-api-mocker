@@ -7,22 +7,154 @@ export class Endpoint {
   private parameters: object;
   private statusCode: number;
   private headers: object;
-  private body: string;
+  private responseBody: string;
   private createdAt: number;
   private updatedAt: number;
   private reporisotry: RepositoryInterface;
 
-  constructor(groupKey: string, path: string, method: string, parameters: object, statusCode: number, headers: object, body: string, repository: RepositoryInterface) {
+  constructor(
+    groupKey: string,
+    path: string,
+    method: string,
+    statusCode: number,
+    headers: object,
+    parameters: object,
+    responseBody: string,
+    repository: RepositoryInterface) {
+    if (!this.validateGroupkey(groupKey)) {
+      throw new Error('Endpoint: groupkey is not valid');
+    }
     this.groupKey = groupKey;
+    if (!this.validatePath(path)) {
+      throw new Error('Endpoint: path is not valid');
+    }
     this.path = path;
+    if (!this.validateMethod(method)) {
+      throw new Error('Endpoint: method is not valid');
+    }
     this.method = method;
-    this.parameters = parameters;
+    if (!this.validateStatusCode(statusCode)) {
+      throw new Error('Endpoint: statuscode is not valid');
+    }
     this.statusCode = statusCode;
+    if (!this.validateHeaders(headers)) {
+      throw new Error('Endpoint: headers is not valid');
+    }
     this.headers = headers;
-    this.body = body;
+    if (!this.validateParameters(parameters)) {
+      throw new Error('Endpoint: parameters is not valid');
+    }
+    this.parameters = parameters;
+    this.responseBody = responseBody;
     this.reporisotry = repository;
   }
 
+  private validateGroupkey(groupKey: string): boolean {
+    return /\w{12}/.test(groupKey);
+  }
+
+  private validatePath(path: string): boolean {
+    return path.length > 0;
+  }
+
+  private validateMethod(method: string): boolean {
+    const validMethods = [
+      'GET',
+      'POST',
+      'PUT',
+      'DELETE'
+    ];
+    return validMethods.indexOf(method) > -1;
+  }
+
+  private validateStatusCode(statusCode: number): boolean {
+    const validStatusCodes = [
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      226,
+      301,
+      302,
+      303,
+      304,
+      307,
+      308,
+      400,
+      401,
+      403,
+      404,
+      405,
+      406,
+      407,
+      408,
+      409,
+      410,
+      411,
+      412,
+      413,
+      414,
+      415,
+      416,
+      417,
+      418,
+      421,
+      422,
+      423,
+      424,
+      425,
+      426,
+      428,
+      429,
+      431,
+      451,
+      500,
+      501,
+      502,
+      503,
+      504,
+      505,
+      506,
+      507,
+      508,
+      510,
+      511,
+    ];
+    return validStatusCodes.indexOf(statusCode) > -1;
+  }
+
+  private validateHeaders(headers: object): boolean {
+    const reg = /\w*/;
+    let result = true;
+    Object.keys(headers).forEach((key) => {
+      if (!reg.test(key)) {
+        result = false;
+      }
+      if (!reg.test(headers[key])) {
+        result = false;
+      }
+    })
+    return result;
+  }
+
+  private validateParameters(parameters: object): boolean {
+    const reg = /\w*/;
+    let result = true;
+    Object.keys(parameters).forEach((key) => {
+      if (!reg.test(key)) {
+        result = false;
+      }
+      if (!reg.test(parameters[key])) {
+        result = false;
+      }
+    })
+    return result;
+  }
 
   public async create(): Promise<boolean> {
     const unixTimestamp = Math.round( new Date().getTime() / 1000 );
@@ -35,21 +167,18 @@ export class Endpoint {
       parameters: this.parameters,
       statusCode: this.statusCode,
       headers: this.headers,
-      body: this.body,
+      responseBody: this.responseBody,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     });
   }
 
-  public async update(method?: string, parameters?: object, statusCode?: number, headers?: object, body?:string): Promise<boolean> {
+  public async update(method?: string, statusCode?: number, headers?: object,  parameters?: object, responseBody?:string): Promise<boolean> {
     const unixTimestamp = Math.round( new Date().getTime() / 1000 );
     this.updatedAt = unixTimestamp;
 
     if (method) {
       this.method = method;
-    }
-    if (parameters) {
-      this.parameters = parameters;
     }
     if (statusCode) {
       this.statusCode = statusCode;
@@ -57,8 +186,11 @@ export class Endpoint {
     if (headers) {
       this.headers = headers;
     }
-    if (body) {
-      this.body = body;
+    if (parameters) {
+      this.parameters = parameters;
+    }
+    if (responseBody) {
+      this.responseBody = responseBody;
     }
 
     return await this.reporisotry.save({
@@ -68,7 +200,7 @@ export class Endpoint {
       parameters: this.parameters,
       statusCode: this.statusCode,
       headers: this.headers,
-      body: this.body,
+      responseBody: this.responseBody,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     });
@@ -82,7 +214,7 @@ export class Endpoint {
       parameters: this.parameters,
       statusCode: this.statusCode,
       headers: this.headers,
-      body: this.body,
+      responseBody: this.responseBody,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     };

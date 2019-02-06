@@ -7,7 +7,7 @@ describe('Endpoint', () => {
   let instance: Endpoint;
   beforeEach(() => {
     const endpointRepository = new EndpointRepository();
-    instance = new Endpoint('12345678', 'foo/bar', 'GET', { foo: 'bar'}, 200, {}, '{ "aaa": "bbb" }', endpointRepository);
+    instance = new Endpoint('123456789012', 'foo/bar', 'GET', 200, {}, { foo: 'bar' },'{ "aaa": "bbb" }', endpointRepository);
   })
   it('check Endpoint.create() returns true', async () => {
     const ret = await instance.create();
@@ -20,13 +20,13 @@ describe('Endpoint', () => {
   it('check Endpoint.get() returns object', () => {
     const ret = instance.get();
     expect(ret).toMatchObject({
-      groupKey: '12345678',
+      groupKey: '123456789012',
       path: 'foo/bar',
       method: 'GET',
       parameters: { foo: 'bar'},
       statusCode: 200,
       headers: {},
-      body: '{ "aaa": "bbb" }'
+      responseBody: '{ "aaa": "bbb" }'
     })
   })
 })
