@@ -1,6 +1,6 @@
-import { RepositoriesInterface } from 'adapters/repositories/RepositoriesInterface';
+import { AggregationRepositoryInterface } from 'adapters/repositories/AggregationRepositoryInterface';
 
-export class GroupsRepository implements RepositoriesInterface {
+export class GroupsRepository implements AggregationRepositoryInterface {
   public async find(keyMap: object): Promise<Array<object>> {
     return new Promise((resolve) => resolve([]));
   }
