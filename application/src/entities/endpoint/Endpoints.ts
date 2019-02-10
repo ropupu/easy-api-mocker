@@ -1,8 +1,15 @@
-import { AggregationRepositoryInterface } from 'adapters/repositories/AggregationRepositoryInterface';
+import { Endpoint } from 'entities/endpoint/Endpoint';
 
 export class Endpoints {
-  private repository: AggregationRepositoryInterface;
-  constructor(repository: AggregationRepositoryInterface) {
-    this.repository = repository;
+  private endpoints: Array<Endpoint>
+
+  constructor(endpoints: Array<Endpoint>) {
+    this.endpoints = endpoints;
+  }
+  public push(endpoint: Endpoint) {
+    this.endpoints.push(endpoint);
+  }
+  public get(): Array<Endpoint> {
+    return this.endpoints;
   }
 }

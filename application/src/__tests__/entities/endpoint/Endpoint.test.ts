@@ -1,32 +1,23 @@
 import { Endpoint } from 'entities/endpoint/Endpoint';
-import { EndpointRepository } from 'adapters/repositories/EndpointRepository';
-
-jest.mock('adapters/repositories/EndpointRepository');
+import { Group } from 'entities/group/Group';
+import { GroupKey } from 'entities/group/GroupKey';
 
 describe('Endpoint', () => {
   let instance: Endpoint;
   beforeEach(() => {
-    const endpointRepository = new EndpointRepository();
-    instance = new Endpoint('123456789012', 'foo/bar', 'GET', 200, {}, { foo: 'bar' },'{ "aaa": "bbb" }', endpointRepository);
+    const groupKey = new GroupKey();
+    const group = new Group(groupKey);
+    instance = new Endpoint(
+      group, 
+      'foo/bar', 
+      'GET', 
+      200, 
+      {"x-api-key" : "abcde12345"},
+      {"foo": "bar"}, 
+      JSON.stringify({"aaa": "bbb"})
+    )
   })
-  it('check Endpoint.create() returns true', async () => {
-    const ret = await instance.create();
-    expect(ret).toBe(true);
-  })
-  it('check Endpoint.update() returns true', async() => {
-    const ret = await instance.update('POST');
-    expect(ret).toBe(true);
-  })
-  it('check Endpoint.get() returns object', () => {
-    const ret = instance.get();
-    expect(ret).toMatchObject({
-      groupKey: '123456789012',
-      path: 'foo/bar',
-      method: 'GET',
-      parameters: { foo: 'bar'},
-      statusCode: 200,
-      headers: {},
-      responseBody: '{ "aaa": "bbb" }'
-    })
+  it('check Endpoint.update() returns true', () => {
+    expect(instance.update('POST')).toBe(true);
   })
 })

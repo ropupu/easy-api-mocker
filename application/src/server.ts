@@ -1,6 +1,7 @@
 import * as Express from "express";
 import * as bodyParser from "body-parser";
 import { CreateGroupUsecase } from 'usecases/group/CreateGroupUsecase';
+import { GroupRepository } from 'interfaces/repositories/GroupRepository';
 
 const PORT = 3000;
 
@@ -30,7 +31,8 @@ app.get('/', (req: Express.Request, res: Express.Response) => {
 });
 
 app.post('/api/', async (req: Express.Request, res: Express.Response) => {
-  const createGroupUsecase = new CreateGroupUsecase();
+  const groupRepository = new GroupRepository();
+  const createGroupUsecase = new CreateGroupUsecase(groupRepository);
   const groupKey: string = await createGroupUsecase.normal();
   res.status(201).send({ group_key: groupKey });
 });

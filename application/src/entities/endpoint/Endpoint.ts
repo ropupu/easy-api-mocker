@@ -1,7 +1,7 @@
-import { RepositoryInterface } from 'adapters/repositories/RepositoryInterface';
+import { Group } from 'entities/group/Group';
 
 export class Endpoint {
-  private groupKey: string;
+  private group: Group;
   private path: string;
   private method: string;
   private parameters: object;
@@ -10,21 +10,17 @@ export class Endpoint {
   private responseBody: string;
   private createdAt: number;
   private updatedAt: number;
-  private reporisotry: RepositoryInterface;
 
   constructor(
-    groupKey: string,
+    group: Group,
     path: string,
     method: string,
     statusCode: number,
     headers: object,
     parameters: object,
     responseBody: string,
-    repository: RepositoryInterface) {
-    if (!this.validateGroupkey(groupKey)) {
-      throw new Error('Endpoint: groupkey is not valid');
-    }
-    this.groupKey = groupKey;
+    ) {
+    this.group = group;
     if (!this.validatePath(path)) {
       throw new Error('Endpoint: path is not valid');
     }
@@ -46,11 +42,6 @@ export class Endpoint {
     }
     this.parameters = parameters;
     this.responseBody = responseBody;
-    this.reporisotry = repository;
-  }
-
-  private validateGroupkey(groupKey: string): boolean {
-    return /\w{12}/.test(groupKey);
   }
 
   private validatePath(path: string): boolean {
@@ -156,24 +147,7 @@ export class Endpoint {
     return result;
   }
 
-  public async create(): Promise<boolean> {
-    const unixTimestamp = Math.round( new Date().getTime() / 1000 );
-    this.createdAt = unixTimestamp;
-    this.updatedAt = unixTimestamp;
-    return await this.reporisotry.save({
-      groupKey: this.groupKey,
-      path: this.path,
-      method: this.method,
-      parameters: this.parameters,
-      statusCode: this.statusCode,
-      headers: this.headers,
-      responseBody: this.responseBody,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
-    });
-  }
-
-  public async update(method?: string, statusCode?: number, headers?: object,  parameters?: object, responseBody?:string): Promise<boolean> {
+  public update(method?: string, statusCode?: number, headers?: object,  parameters?: object, responseBody?:string): boolean {
     const unixTimestamp = Math.round( new Date().getTime() / 1000 );
     this.updatedAt = unixTimestamp;
 
@@ -192,31 +166,6 @@ export class Endpoint {
     if (responseBody) {
       this.responseBody = responseBody;
     }
-
-    return await this.reporisotry.save({
-      groupKey: this.groupKey,
-      path: this.path,
-      method: this.method,
-      parameters: this.parameters,
-      statusCode: this.statusCode,
-      headers: this.headers,
-      responseBody: this.responseBody,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
-    });
-  }
-
-  public get(): object {
-    return {
-      groupKey: this.groupKey,
-      path: this.path,
-      method: this.method,
-      parameters: this.parameters,
-      statusCode: this.statusCode,
-      headers: this.headers,
-      responseBody: this.responseBody,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
-    };
+    return true;
   }
 }

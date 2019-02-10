@@ -1,18 +1,16 @@
 import { CreateGroupUsecase } from 'usecases/group/CreateGroupUsecase';
-import { Group } from 'entities/group/Group';
-import { GroupRepository } from 'adapters/repositories/GroupRepository';
+import { GroupRepository } from 'interfaces/repositories/GroupRepository';
 
-jest.mock('adapters/repositories/GroupRepository');
-jest.mock('entities/group/GroupKey');
-jest.mock('entities/group/Group');
+jest.mock('interfaces/repositories/GroupRepository');
 
 describe('CreateGroupUsecase', () => {
   let instance: CreateGroupUsecase;
   beforeEach(() => {
-    instance = new CreateGroupUsecase();
+    const groupRepository = new GroupRepository();
+    instance = new CreateGroupUsecase(groupRepository);
   })
-  it('check CreateGroupUsecase.normal() return true', async() => {
+  it('check CreateGroupUsecase.normal() return groupKey', async() => {
     const key = await instance.normal();
-    expect(key).toMatch(/\w{8}/);
+    expect(key).toMatch(/\w{12}/);
   })
 })
