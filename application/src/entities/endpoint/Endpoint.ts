@@ -168,4 +168,18 @@ export class Endpoint {
     }
     return true;
   }
+
+  public getObject(): object {
+    return {
+      group_key: this.group.getKey(),
+      path: this.path,
+      method: this.method,
+      parameters: this.parameters,
+      status_code: this.statusCode,
+      headers: this.headers,
+      response_body: this.responseBody,
+      created_at: this.createdAt,
+      updated_at: this.updatedAt
+    }
+  }
 }

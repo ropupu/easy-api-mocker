@@ -15,4 +15,7 @@ export class EndpointsRepository {
     );
     return new Promise((resolve) => resolve(new Endpoints([endpoint])));
   }
+  public async find(params: object): Promise<Endpoint> {
+    return new Promise((resolve) => resolve(null));
+  }
 }

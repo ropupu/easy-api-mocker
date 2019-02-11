@@ -1,7 +1,12 @@
 import * as Express from "express";
 import * as bodyParser from "body-parser";
 import { CreateGroupUsecase } from 'usecases/group/CreateGroupUsecase';
+import { CreateEndpointUsecase } from 'usecases/endpoint/CreateEndpointUsecase';
+import { GetEndpointsUsecase } from 'usecases/endpoint/GetEndpointsUsecase';
 import { GroupRepository } from 'interfaces/repositories/GroupRepository';
+import { GroupsRepository } from 'interfaces/repositories/GroupsRepository';
+import { EndpointRepository } from 'interfaces/repositories/EndpointRepository';
+import { EndpointsRepository } from 'interfaces/repositories/EndpointsRepository';
 
 const PORT = 3000;
 
@@ -36,6 +41,33 @@ app.post('/api/', async (req: Express.Request, res: Express.Response) => {
   const groupKey: string = await createGroupUsecase.normal();
   res.status(201).send({ group_key: groupKey });
 });
+
+app.get('/api/:group_key', async (req: Express.Request, res: Express.Response) => {
+  const groupKeyString = req.params.group_key;
+  const groupsRepository = new GroupsRepository();
+  const endpointsRepository = new EndpointsRepository();
+  const getEndpointsUsecase = new GetEndpointsUsecase(groupsRepository, endpointsRepository);
+  const endpoints = await getEndpointsUsecase.normal(groupKeyString);
+  res.status(200).send(endpoints.getObject());
+})
+
+app.post('/api/:group_key', async (req: Express.Request, res: Express.Response) => {
+  const groupKeyString = req.params.group_key;
+  const groupsRepository = new GroupsRepository();
+  const endpointRepository = new EndpointRepository();
+  const endpointsRepository = new EndpointsRepository();
+  const createEndpointUsecase = new CreateEndpointUsecase(groupsRepository, endpointRepository, endpointsRepository);
+  await createEndpointUsecase.normal(
+    groupKeyString,
+    req.params.path,
+    req.params.method,
+    req.params.status_code,
+    req.params.headers,
+    req.params.parameters,
+    req.params.response_body
+  );
+  res.status(200).send({});
+})
 
 app.listen(PORT, () => {
   console.log('Express server listening on port ' + PORT);
