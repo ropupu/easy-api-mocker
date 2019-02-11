@@ -29,6 +29,18 @@ export class EndpointsRepository {
         ""))
       )
     }
+    console.log(params);
+    if (params.hasOwnProperty('path') && params["path"] === 'use-endpoint-use-case') {
+      return new Promise((resolve) => resolve(new Endpoint(
+        group,
+        'foo/bar',
+        'GET',
+        200,
+        {},
+        {},
+        ""))
+      )
+    }
     return new Promise((resolve) => resolve(null));
   }
   public async delete(endpoint: Endpoint): Promise<boolean> {
