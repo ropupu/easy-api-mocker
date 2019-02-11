@@ -1,6 +1,7 @@
 import { Group } from 'entities/group/Group';
 
 export class Endpoint {
+  private key: string;
   private group: Group;
   private path: string;
   private method: string;
@@ -145,6 +146,10 @@ export class Endpoint {
       }
     })
     return result;
+  }
+
+  public setKey(key: string) {
+    this.key = key;
   }
 
   public update(method?: string, statusCode?: number, headers?: object,  parameters?: object, responseBody?:string): boolean {

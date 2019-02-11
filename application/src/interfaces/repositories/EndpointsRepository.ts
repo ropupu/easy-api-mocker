@@ -9,4 +9,7 @@ export class EndpointsRepository {
   public async find(params: object): Promise<Endpoint> {
     return new Promise((resolve) => resolve(null));
   }
+  public async delete(endpoint: Endpoint): Promise<boolean> {
+    return new Promise((resolve) => resolve(true));
+  }
 }

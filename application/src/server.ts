@@ -69,6 +69,8 @@ app.post('/api/:group_key', async (req: Express.Request, res: Express.Response) 
   res.status(200).send({});
 })
 
+app.delete('/api/:group_key')
+
 app.listen(PORT, () => {
   console.log('Express server listening on port ' + PORT);
 })
