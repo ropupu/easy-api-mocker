@@ -187,4 +187,12 @@ export class Endpoint {
       updated_at: this.updatedAt
     }
   }
+
+  public getStatusCode(): number {
+    return this.statusCode;
+  }
+
+  public getResponseBody(): string {
+    return this.responseBody;
+  }
 }

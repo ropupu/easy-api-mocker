@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import { CreateGroupUsecase } from 'usecases/group/CreateGroupUsecase';
 import { CreateEndpointUsecase } from 'usecases/endpoint/CreateEndpointUsecase';
 import { DeleteEndpointUsecase } from 'usecases/endpoint/DeleteEndpointUsecase';
+import { UseEndpointUsecase } from 'usecases/endpoint/UseEndpointUsecase';
 import { GetEndpointsUsecase } from 'usecases/endpoint/GetEndpointsUsecase';
 import { GroupRepository } from 'interfaces/repositories/GroupRepository';
 import { GroupsRepository } from 'interfaces/repositories/GroupsRepository';
@@ -77,6 +78,25 @@ app.delete('/api/:group_key', async (req: Express.Request, res: Express.Response
   await deleteEndpointUsecase.normal(endpointKey);
   res.status(200).send({});
 })
+
+app.all('/api/:group_key/*', async (req: Express.Request, res: Express.Response) => {
+  const groupKeyString = req.params.group_key;
+  const path = req.params[0];
+  const method = req.method;
+  const headers = req.headers;
+  const parameters = req.body;
+
+  const groupsRepository = new GroupsRepository();
+  const endpointsRepository = new EndpointsRepository();
+  const useEndpointUsecase = new UseEndpointUsecase(groupsRepository, endpointsRepository);
+  const endpoint = await useEndpointUsecase.normal(groupKeyString, {
+    path: path,
+    method: method,
+    headers: headers,
+    parameters: parameters
+  });
+  res.status(endpoint.getStatusCode()).send(endpoint.getResponseBody());
+}) 
 
 app.listen(PORT, () => {
   console.log('Express server listening on port ' + PORT);
