@@ -19,9 +19,10 @@ describe('UseEndpointUsecase', () => {
       "group_key",
       "path",
       "method",
+      "headers",
       "parameters",
       "status_code",
-      "headers",
+      "response_headers",
       "response_body",
       "created_at",
       "updated_at"

@@ -11,6 +11,7 @@ describe('Endpoint', () => {
       group, 
       'foo/bar', 
       'GET', 
+      {"Content-Type" : "application/json"},
       200, 
       {"x-api-key" : "abcde12345"},
       {"foo": "bar"}, 

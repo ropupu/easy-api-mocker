@@ -21,9 +21,10 @@ export class CreateEndpointUsecase {
     groupKeyString: string,
     path: string,
     method: string,
-    statusCode: number,
     headers: object,
+    statusCode: number,
     parameters: object,
+    responseHeaders: object,
     responseBody: string,
   ): Promise<boolean> {
     try {
@@ -43,9 +44,10 @@ export class CreateEndpointUsecase {
         group,
         path,
         method,
-        statusCode,
         headers,
+        statusCode,
         parameters,
+        responseHeaders,
         responseBody
       );
       this.endpointRepository.store(endpoint);

@@ -18,6 +18,7 @@ describe('CreateEndpointUsecase', () => {
       '123456789012',
       'foo/bar',
       'GET',
+      {},
       200,
       {},
       {},

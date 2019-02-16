@@ -78,9 +78,10 @@ app.post('/api/:group_key', async (req: Express.Request, res: Express.Response, 
       groupKeyString,
       req.params.path,
       req.params.method,
-      req.params.status_code,
       req.params.headers,
+      req.params.status_code,
       req.params.parameters,
+      req.params.response_headers,
       req.params.response_body
     );
     res.status(200).send({});

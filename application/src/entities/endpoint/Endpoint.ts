@@ -5,9 +5,10 @@ export class Endpoint {
   private group: Group;
   private path: string;
   private method: string;
+  private headers: object;
   private parameters: object;
   private statusCode: number;
-  private headers: object;
+  private responseHeaders: object;
   private responseBody: string;
   private createdAt: number;
   private updatedAt: number;
@@ -16,9 +17,10 @@ export class Endpoint {
     group: Group,
     path: string,
     method: string,
-    statusCode: number,
     headers: object,
+    statusCode: number,
     parameters: object,
+    responseHeaders: object,
     responseBody: string,
     ) {
     this.group = group;
@@ -30,14 +32,17 @@ export class Endpoint {
       throw new Error('Endpoint: method is not valid');
     }
     this.method = method;
+    if (!this.validateHeaders(headers)) {
+      throw new Error('Endpoint: headers is not valid');
+    }
     if (!this.validateStatusCode(statusCode)) {
       throw new Error('Endpoint: statuscode is not valid');
     }
     this.statusCode = statusCode;
-    if (!this.validateHeaders(headers)) {
-      throw new Error('Endpoint: headers is not valid');
+    if (!this.validateHeaders(responseHeaders)) {
+      throw new Error('Endpoint: response headers is not valid');
     }
-    this.headers = headers;
+    this.responseHeaders = responseHeaders;
     if (!this.validateParameters(parameters)) {
       throw new Error('Endpoint: parameters is not valid');
     }
@@ -152,18 +157,21 @@ export class Endpoint {
     this.key = key;
   }
 
-  public update(method?: string, statusCode?: number, headers?: object,  parameters?: object, responseBody?:string): boolean {
+  public update(method?: string, headers?: object, statusCode?: number, responseHeaders?: object,  parameters?: object, responseBody?:string): boolean {
     const unixTimestamp = Math.round( new Date().getTime() / 1000 );
     this.updatedAt = unixTimestamp;
 
     if (method) {
       this.method = method;
     }
+    if (headers) {
+      this.headers = headers;
+    }
     if (statusCode) {
       this.statusCode = statusCode;
     }
-    if (headers) {
-      this.headers = headers;
+    if (responseHeaders) {
+      this.responseHeaders = responseHeaders;
     }
     if (parameters) {
       this.parameters = parameters;
@@ -179,9 +187,10 @@ export class Endpoint {
       group_key: this.group.getKey(),
       path: this.path,
       method: this.method,
+      headers: this.headers,
       parameters: this.parameters,
       status_code: this.statusCode,
-      headers: this.headers,
+      response_headers: this.responseHeaders,
       response_body: this.responseBody,
       created_at: this.createdAt,
       updated_at: this.updatedAt
