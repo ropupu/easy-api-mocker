@@ -1,24 +1,25 @@
 import * as firebase from 'firebase-admin';
-import * as serviceAccount from 'config/firestore-serviceaccount.json';
 import { Item } from 'interfaces/databases/Item';
+import * as serviceAccount from 'config/firestore-serviceaccount.json';
 
 export class Firestore {
   private db: FirebaseFirestore.Firestore;
   constructor() {
     const params = {
       type: serviceAccount.type,
-      project_id: serviceAccount.project_id,
-      private_key_id: serviceAccount.private_key_id,
-      private_key: serviceAccount.private_key,
-      client_email: serviceAccount.client_email,
-      client_id: serviceAccount.client_id,
-      auth_uri: serviceAccount.auth_uri,
-      token_uri: serviceAccount.token_uri,
-      auth_provider_x509_cert_url: serviceAccount.auth_provider_x509_cert_url,
-      client_x509_cert_url: serviceAccount.client_x509_cert_url
+      projectId: serviceAccount.project_id,
+      privateKeyId: serviceAccount.private_key_id,
+      privateKey: serviceAccount.private_key,
+      clientEmail: serviceAccount.client_email,
+      clientId: serviceAccount.client_id,
+      authUri: serviceAccount.auth_uri,
+      tokenUri: serviceAccount.token_uri,
+      authProviderX509CertUrl: serviceAccount.auth_provider_x509_cert_url,
+      clientC509CertUrl: serviceAccount.client_x509_cert_url
     };
+   
     firebase.initializeApp({
-      credential: firebase.credential.cert(JSON.stringify(params)),
+      credential: firebase.credential.cert(params),
     });
     this.db = firebase.firestore();
   }
