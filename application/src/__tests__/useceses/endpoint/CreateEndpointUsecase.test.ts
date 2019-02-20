@@ -3,7 +3,9 @@ import { GroupsRepository } from 'interfaces/repositories/GroupsRepository';
 import { EndpointRepository } from 'interfaces/repositories/EndpointRepository';
 import { EndpointsRepository } from 'interfaces/repositories/EndpointsRepository';
 
-jest.mock('interfaces/repositories/GroupRepository');
+jest.mock('interfaces/repositories/GroupsRepository');
+jest.mock('interfaces/repositories/EndpointsRepository');
+jest.mock('interfaces/repositories/EndpointRepository');
 
 describe('CreateEndpointUsecase', () => {
   let instance: CreateEndpointUsecase;
