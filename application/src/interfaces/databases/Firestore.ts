@@ -3,8 +3,9 @@ import { Item } from 'interfaces/databases/Item';
 import * as serviceAccount from 'config/firestore-serviceaccount.json';
 
 export class Firestore {
+  private static instance: Firestore;
   private db: FirebaseFirestore.Firestore;
-  constructor() {
+  private constructor() {
     const params = {
       type: serviceAccount.type,
       projectId: serviceAccount.project_id,
@@ -23,6 +24,13 @@ export class Firestore {
     });
     this.db = firebase.firestore();
   }
+
+  public static getInstance() {
+    if (!Firestore.instance) {
+        Firestore.instance = new Firestore();
+    }
+    return Firestore.instance;
+}
 
   public async save(tableName: string, data: object, key?: string): Promise<string> {
     let collectionRef = this.db.collection(tableName);

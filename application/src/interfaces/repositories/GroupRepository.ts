@@ -6,7 +6,7 @@ import { Item } from 'interfaces/databases/Item';
 export class GroupRepository {
   private db: Database;
   constructor() {
-    this.db = new Firestore();
+    this.db = Firestore.getInstance();
   }
 
   public async store(group: Group): Promise<boolean> {

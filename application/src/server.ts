@@ -63,6 +63,9 @@ app.get('/api/:group_key', async (req: Express.Request, res: Express.Response, n
     const endpoints = await getEndpointsUsecase.normal(groupKeyString);
     res.status(200).send(endpoints.getObject());
   } catch (err) {
+    if (err.message === 'group not found') {
+      res.status(404).send({ 'message': 'Group Not Found'});
+    }
     next(err);
   }
 })
