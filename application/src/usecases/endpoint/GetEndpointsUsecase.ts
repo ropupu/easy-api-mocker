@@ -14,6 +14,9 @@ export class GetEndpointsUsecase {
     let endpoints: Endpoints;
     try {
       const group = await this.groupsRepository.findByKey(groupKeyString);
+      if (!group) {
+        throw new Error('group not found');
+      }
       endpoints = await this.endpointsRepository.get(group);
     } catch (e) {
       throw e;

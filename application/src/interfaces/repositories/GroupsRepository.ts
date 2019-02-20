@@ -15,6 +15,6 @@ export class GroupsRepository {
       const groupKey = new GroupKey(result.key);
       return new Promise((resolve) => resolve(new Group(groupKey)));
     }
-    throw new Error('group not found');
+    return new Promise((resolve) => resolve(null));
   }
 }
