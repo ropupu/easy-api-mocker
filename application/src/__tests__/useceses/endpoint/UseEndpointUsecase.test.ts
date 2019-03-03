@@ -16,7 +16,6 @@ describe('UseEndpointUsecase', () => {
   it('check UseEndpointUsecase.normal() return Endpoint', async() => {
     const endpoint = await instance.normal('group-key-xx', {"path": "use-endpoint-use-case"});
     expect(Object.keys(endpoint.getObject())).toEqual([
-      "group_key",
       "path",
       "method",
       "headers",

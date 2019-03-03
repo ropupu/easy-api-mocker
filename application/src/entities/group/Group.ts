@@ -6,7 +6,7 @@ export class Group {
   private updatedAt: number;
 
   constructor(groupKey: GroupKey, createdAt?: number, updatedAt?: number) {
-    this.groupKey = new GroupKey();
+    this.groupKey = groupKey;
     const unixTimestamp = Math.round( new Date().getTime() / 1000 );
     this.createdAt = unixTimestamp;
     this.updatedAt = unixTimestamp;

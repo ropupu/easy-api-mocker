@@ -35,6 +35,7 @@ export class Endpoint {
     if (!this.validateHeaders(headers)) {
       throw new Error('Endpoint: headers is not valid');
     }
+    this.headers = headers;
     if (!this.validateStatusCode(statusCode)) {
       throw new Error('Endpoint: statuscode is not valid');
     }
@@ -48,6 +49,10 @@ export class Endpoint {
     }
     this.parameters = parameters;
     this.responseBody = responseBody;
+
+    const unixTimestamp = Math.round( new Date().getTime() / 1000 );
+    this.createdAt = unixTimestamp;
+    this.updatedAt = unixTimestamp;
   }
 
   private validatePath(path: string): boolean {
@@ -184,7 +189,6 @@ export class Endpoint {
 
   public getObject(): object {
     return {
-      group_key: this.group.getKey(),
       path: this.path,
       method: this.method,
       headers: this.headers,
@@ -203,5 +207,9 @@ export class Endpoint {
 
   public getResponseBody(): string {
     return this.responseBody;
+  }
+
+  public getGroupKey(): string {
+    return this.group.getKey();
   }
 }

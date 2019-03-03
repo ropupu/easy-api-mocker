@@ -72,20 +72,29 @@ app.get('/api/:group_key', async (req: Express.Request, res: Express.Response, n
 
 app.post('/api/:group_key', async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   try {
+    console.log(req.body);
     const groupKeyString = req.params.group_key;
+    const path = req.body.path;
+    const method = req.body.method;
+    const headers = req.body.headers;
+    const statusCode = parseInt(req.body.status_code);
+    const parameters = req.body.parameters;
+    const responseHeaders = req.body.response_headers;
+    const responseBody = req.body.response_body;
+
     const groupsRepository = new GroupsRepository();
     const endpointRepository = new EndpointRepository();
     const endpointsRepository = new EndpointsRepository();
     const createEndpointUsecase = new CreateEndpointUsecase(groupsRepository, endpointRepository, endpointsRepository);
     await createEndpointUsecase.normal(
       groupKeyString,
-      req.params.path,
-      req.params.method,
-      req.params.headers,
-      req.params.status_code,
-      req.params.parameters,
-      req.params.response_headers,
-      req.params.response_body
+      path,
+      method,
+      headers,
+      statusCode,
+      parameters,
+      responseHeaders,
+      responseBody
     );
     res.status(200).send({});
   } catch (err) {

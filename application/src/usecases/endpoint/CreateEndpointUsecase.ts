@@ -27,6 +27,7 @@ export class CreateEndpointUsecase {
     responseHeaders: object,
     responseBody: string,
   ): Promise<boolean> {
+    
     try {
       const group = await this.groupsRepository.findByKey(groupKeyString);
       const existingEndpoint = await this.endpointsRepository.find({
