@@ -3,6 +3,7 @@ import { Endpoint } from 'entities/endpoint/Endpoint';
 import { Endpoints } from 'entities/endpoint/Endpoints';
 import { Database } from 'interfaces/databases/Database';
 import { Firestore } from 'interfaces/databases/Firestore';
+import { GroupKey } from 'entities/group/GroupKey';
 
 export class EndpointsRepository {
   private db: Database;
@@ -24,15 +25,14 @@ export class EndpointsRepository {
         })
       }
     });
-    let endpoints = [];
-    if (params['group']) {
-      const groupKey = params['group'].getKey();
-      endpoints = await this.db.selectChildren('endpoints', 'groups', groupKey, conditions);
-    } else {
-      endpoints = await this.db.select('endpoints', conditions);
-    }
+    const groupKey = params['group'].getKey();
+    const endpoints = await this.db.selectChildren('endpoints', 'groups', groupKey, conditions);
     if (endpoints) {
-      return new Promise((resolve) => resolve(endpoints[0]));
+      const key = endpoints[0]['key'];
+      const data = endpoints[0]['data'];
+      const endpoint = new Endpoint(params['group'], data['path'], data['method'], data['headers'], data['status_code'], data['parameters'], data['response_headers'], data['response_body']);
+      endpoint.setKey(key);
+      return new Promise((resolve) => resolve(endpoint));
     }
     return new Promise((resolve) => resolve(null));
   }
