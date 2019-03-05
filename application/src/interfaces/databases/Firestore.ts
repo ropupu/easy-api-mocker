@@ -71,7 +71,11 @@ export class Firestore {
     let collectionRef = this.db.collection(tableName);
     let query: FirebaseFirestore.Query;
     conditions.forEach((condition) => {
-      query = collectionRef.where(condition.column, condition.operator, condition.value);
+      if (query) {
+        query = query.where(condition.column, condition.operator, condition.value);
+      } else {
+        query = collectionRef.where(condition.column, condition.operator, condition.value);
+      }
     })
     const result = await query.get();
     let items = [];
@@ -87,7 +91,11 @@ export class Firestore {
     let collectionRef = this.db.collection(parentTableName).doc(parentKey).collection(tableName);
     let query: FirebaseFirestore.Query;
     conditions.forEach((condition) => {
-      query = collectionRef.where(condition.column, condition.operator, condition.value);
+      if (query) {
+        query = query.where(condition.column, condition.operator, condition.value);
+      } else {
+        query = collectionRef.where(condition.column, condition.operator, condition.value);
+      }
     })
     const result = await query.get();
     let items = [];
