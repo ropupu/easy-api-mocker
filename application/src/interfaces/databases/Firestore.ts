@@ -69,10 +69,11 @@ export class Firestore {
 
   public async select(tableName: string, conditions: Array<Condition>): Promise<Array<Item>> {
     let collectionRef = this.db.collection(tableName);
+    let query: FirebaseFirestore.Query;
     conditions.forEach((condition) => {
-      collectionRef.where(condition.column, condition.operator, condition.value);
+      query = collectionRef.where(condition.column, condition.operator, condition.value);
     })
-    const result = await collectionRef.get();
+    const result = await query.get();
     let items = [];
     result.forEach((queryDocumentSnapshot) => {
       items.push(({
@@ -82,12 +83,13 @@ export class Firestore {
     })
     return new Promise((resolve) => resolve(items));
   }
-  public async selectChildren(tableName: string, parentTableName: string, parentKey: string,  conditions: Array<Condition>): Promise<Array<Item>> {
+  public async selectChildren(tableName: string, parentTableName: string, parentKey: string, conditions: Array<Condition>): Promise<Array<Item>> {
     let collectionRef = this.db.collection(parentTableName).doc(parentKey).collection(tableName);
+    let query: FirebaseFirestore.Query;
     conditions.forEach((condition) => {
-      collectionRef.where(condition.column, condition.operator, condition.value);
+      query = collectionRef.where(condition.column, condition.operator, condition.value);
     })
-    const result = await collectionRef.get();
+    const result = await query.get();
     let items = [];
     result.forEach((queryDocumentSnapshot) => {
       items.push(({

@@ -27,7 +27,7 @@ export class EndpointsRepository {
     });
     const groupKey = params['group'].getKey();
     const endpoints = await this.db.selectChildren('endpoints', 'groups', groupKey, conditions);
-    if (endpoints) {
+    if (endpoints.length > 0) {
       const key = endpoints[0]['key'];
       const data = endpoints[0]['data'];
       const endpoint = new Endpoint(params['group'], data['path'], data['method'], data['headers'], data['status_code'], data['parameters'], data['response_headers'], data['response_body']);
