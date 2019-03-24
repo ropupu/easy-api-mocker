@@ -95,7 +95,7 @@ app.post('/api/:group_key', async (req: Express.Request, res: Express.Response, 
       responseHeaders,
       responseBody
     );
-    res.status(200).send({});
+    res.status(201).send();
   } catch (err) {
     next(err);
   }
