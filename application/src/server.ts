@@ -10,7 +10,7 @@ import { GroupsRepository } from 'interfaces/repositories/GroupsRepository';
 import { EndpointRepository } from 'interfaces/repositories/EndpointRepository';
 import { EndpointsRepository } from 'interfaces/repositories/EndpointsRepository';
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 class App {
 
@@ -72,7 +72,6 @@ app.get('/api/:group_key', async (req: Express.Request, res: Express.Response, n
 
 app.post('/api/:group_key', async (req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
   try {
-    console.log(req.body);
     const groupKeyString = req.params.group_key;
     const path = req.body.path;
     const method = req.body.method;

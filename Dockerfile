@@ -10,4 +10,4 @@ RUN npm install
 ENV NODE_PATH "/usr/local/lib/node_modules"
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["npm", "run", "prod"]

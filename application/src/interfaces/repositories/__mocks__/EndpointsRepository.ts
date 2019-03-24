@@ -31,7 +31,6 @@ export class EndpointsRepository {
         ""))
       )
     }
-    console.log(params);
     if (params.hasOwnProperty('path') && params["path"] === 'use-endpoint-use-case') {
       return new Promise((resolve) => resolve(new Endpoint(
         group,

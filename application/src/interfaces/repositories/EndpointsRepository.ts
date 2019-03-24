@@ -3,7 +3,6 @@ import { Endpoint } from 'entities/endpoint/Endpoint';
 import { Endpoints } from 'entities/endpoint/Endpoints';
 import { Database } from 'interfaces/databases/Database';
 import { Firestore } from 'interfaces/databases/Firestore';
-import { GroupKey } from 'entities/group/GroupKey';
 
 export class EndpointsRepository {
   private db: Database;
