@@ -39,6 +39,11 @@ class App {
 const express = new App();
 const app = express.app;
 
+app.use(function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 app.get('/', (req: Express.Request, res: Express.Response) => {
   res.send('Hello World!');
 });
@@ -139,5 +144,6 @@ app.all('/api/:group_key/*', async (req: Express.Request, res: Express.Response,
 express.setErrorHandling();
 
 app.listen(PORT, () => {
+  console.log(Date.now());
   console.log('Express server listening on port ' + PORT);
 })
