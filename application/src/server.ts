@@ -41,6 +41,7 @@ const app = express.app;
 
 app.use(function (req: Express.Request, res: Express.Response, next: Express.NextFunction) {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
   next();
 });
 
