@@ -97,6 +97,9 @@ export class Firestore {
         query = collectionRef.where(condition.column, condition.operator, condition.value);
       }
     })
+    if (conditions.length === 0) {
+      query = collectionRef;
+    }
     const result = await query.get();
     let items = [];
     result.forEach((queryDocumentSnapshot) => {

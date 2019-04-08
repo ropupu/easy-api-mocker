@@ -11,8 +11,29 @@ export class EndpointsRepository {
   }
 
   public async get(group: Group): Promise<Endpoints> {
-    return new Promise((resolve) => resolve(new Endpoints([])));
+    const groupKey = group.getKey();
+    const items = await this.db.selectChildren('endpoints', 'groups', groupKey, []);
+    const endpoints = new Endpoints([]);
+    if (items.length > 0) {
+      items.forEach((item) => {
+        let data = item['data'];
+        let endpoint = new Endpoint(
+          group,
+          data['path'],
+          data['method'],
+          data['headers'],
+          data['status_code'],
+          data['parameters'],
+          data['response_headers'],
+          data['response_body']
+        );
+        endpoint.setKey(item['key']);
+        endpoints.push(endpoint);
+      })
+    }
+    return new Promise((resolve) => resolve(endpoints));
   }
+
   public async find(params: object): Promise<Endpoint> {
     let conditions = [];
     Object.keys(params).forEach((key) => {
