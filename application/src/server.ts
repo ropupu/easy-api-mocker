@@ -85,7 +85,7 @@ app.post('/api/:group_key', async (req: Express.Request, res: Express.Response, 
     const statusCode = parseInt(req.body.status_code);
     const parameters = req.body.parameters;
     const responseHeaders = req.body.response_headers;
-    const responseBody = req.body.response_body;
+    const responseBody = req.body.response_body ? req.body.response_body : '';
 
     const groupsRepository = new GroupsRepository();
     const endpointRepository = new EndpointRepository();
