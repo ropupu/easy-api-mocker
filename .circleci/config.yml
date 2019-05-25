@@ -5,21 +5,10 @@ jobs:
       - image: docker:19.03-rc # the primary container, where your job's commands are run
     steps:
       - checkout
-      - run:
-          name: Install Docker Compose
-          command: |
-            apk add py-pip
-            apk add python-dev libffi-dev openssl-dev gcc libc-dev make
-            pip install docker-compose
       - setup_remote_docker
       - run:
           name: "Container Build"
-          command: "docker-compose build"
-      - run:
-          name: "Container Up"
-          command: |
-            docker-compose up -d
-            sleep 10
+          command: "docker build . -t easyapimocker"
       - run:
           name: "run test"
-          command: "docker exec easy-api-mocker npm run test"
+          command: "docker run easyapimocker npm run test"
