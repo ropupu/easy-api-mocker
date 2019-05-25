@@ -17,7 +17,9 @@ jobs:
           command: "docker-compose build"
       - run:
           name: "Container Up"
-          command: "docker-compose up -d"
+          command: |
+            docker-compose up -d
+            sleep 10
       - run:
           name: "run test"
           command: "docker exec easy-api-mocker npm run test"
